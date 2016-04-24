@@ -38,6 +38,10 @@ update_cert() {
     wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > intermediate.pem
     cat /certs/${domain}-${dt}-signed.crt intermediate.pem > /certs/${domain}-chained.pem
     info "Created chained certificate for ${domain} at /certs/${domain}-chained.pem"
+
+    info "Signalling nginx to reload config"
+    /configure-hosts.sh
+    nginx -s reload
 }
 
 cd /root
