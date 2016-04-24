@@ -1,7 +1,7 @@
 # lets-encrypt-nginx
 
 An nginx Docker image with lets-encrypt included.  Certificates are checked on
-container start, and on a daiy schedule.  Certificates are generated using
+container start, and on a daily schedule.  Certificates are generated using
 [acme-tiny](https://github.com/diafygi/acme-tiny), with a wrapper around it.
 
 ## Quick start
