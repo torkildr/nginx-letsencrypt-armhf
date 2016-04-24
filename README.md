@@ -30,17 +30,17 @@ for an example when running Docker directly.  If using Kubernetes, you can
 
 ### Your website configurations
 
-The running container expects to find configuration files at /configs/http and
-/configs/https for http and https sites, respectively.  On determining that a
-domain has a key and certificate file (which you need to reference from the
-expected location within you nginx config), the config files are copied to
-their final location.  It does this step so that https configuration files can
-be included in the image without causing nginx to fail startup before the
-certificate is generated - it just won't serve that virtualhost, instead.
+The running container expects to find nginx configuration files at
+/configs/http and /configs/https for http and https sites, respectively.  On
+determining that a domain has a key and certificate file (which you need to
+reference from the expected location within you nginx config), the config files
+are copied to their final location.  It does this step so that https
+configuration files can be included in the image without causing nginx to fail
+startup before the certificate is generated - it just won't serve that
+virtualhost, instead.
 
-Currently the configs are copied into the above directories during the build of
-this image, but in the future this will change to be the responsibility of the
-Dockerfile that is based on this image.
+Your Docker image that builds on this image as a base should provide your nginx
+configuration files in the above-mentioned directories.
 
 Example http config:
 
