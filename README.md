@@ -42,6 +42,19 @@ virtualhost, instead.
 Your Docker image that builds on this image as a base should provide your nginx
 configuration files in the above-mentioned directories.
 
+Example Dockerfile for your image:
+
+```
+FROM lets-encrypt-nginx:latest
+MAINTAINER gary.monson@gmail.com
+
+# Copy configs
+COPY configs /configs
+
+# Config content (assuming config points to /website/html)
+COPY html /website/html
+```
+
 Example http config:
 
 ```
@@ -80,7 +93,7 @@ server {
     add_header Strict-Transport-Security max-age=15768000;
 
     location / {
-        root   /usr/share/nginx/html;
+        root   /website/html;
         index  index.html index.htm;
     }
 }
