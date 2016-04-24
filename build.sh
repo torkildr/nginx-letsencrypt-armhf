@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t lets-encrypt-nginx .
+docker build -t garymonson/lets-encrypt-nginx:1 .

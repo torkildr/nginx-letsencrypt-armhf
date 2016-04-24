@@ -45,7 +45,7 @@ configuration files in the above-mentioned directories.
 Example Dockerfile for your image:
 
 ```
-FROM lets-encrypt-nginx:latest
+FROM garymonson/lets-encrypt-nginx:latest
 MAINTAINER gary.monson@gmail.com
 
 # Copy configs
@@ -118,7 +118,7 @@ Running the container:
 
 ```
 
-docker run -it --rm -v $PWD/certs:/etc/nginx/certs -v $PWD/secrets:/etc/secrets -p 80:80 -p 443:443 -e DOMAINS="www1.example.com www2.example.com" -e CA=https://acme-v01.api.letsencrypt.org lets-encrypt-nginx
+docker run -it --rm -v $PWD/certs:/etc/nginx/certs -v $PWD/secrets:/etc/secrets -p 80:80 -p 443:443 -e DOMAINS="www1.example.com www2.example.com" -e CA=https://acme-v01.api.letsencrypt.org garymonson/lets-encrypt-nginx
 ```
 
 Replace the DOMAINS value with a comma-separated list of your domains.
