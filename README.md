@@ -119,3 +119,9 @@ Note that the keys are mounted to /etc/secrets, and the certificates directory
 is mounted to /etc/nginx/certs.  Using this command, you can access the
 certificates from the host at $PWD/certs, as they are generated, in order to
 make backups, etc.
+
+## Maintenance
+
+As per standard nginx Docker image, the nginx logs go to stdout (except briefly
+on startup as it is running in the background for a few seconds), but logs for
+the daily certificate check go to /var/log/update-certs.log.
