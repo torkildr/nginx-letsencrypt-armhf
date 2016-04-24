@@ -15,7 +15,7 @@ update_cert() {
     dt=`date -I`
 
     info "Checking expiry of ${domain} chained cert"
-    if openssl x509 -checkend 2419200 -noout -in /certs/${domain}-chained.pem; then
+    if openssl x509 -checkend 2419200 -noout -in /etc/nginx/certs/${domain}-chained.pem; then
         info "Chained cert for ${domain} is good for at least 28 days"
         continue
     fi
@@ -34,12 +34,12 @@ update_cert() {
         continue
     fi
 
-    mv /tmp/${domain}-${dt}-signed.crt /certs/
+    mv /tmp/${domain}-${dt}-signed.crt /etc/nginx/certs/
 
     info "Successfully got signed certificate for ${domain}"
     wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > intermediate.pem
-    cat /certs/${domain}-${dt}-signed.crt intermediate.pem > /certs/${domain}-chained.pem
-    info "Created chained certificate for ${domain} at /certs/${domain}-chained.pem"
+    cat /etc/nginx/certs/${domain}-${dt}-signed.crt intermediate.pem > /etc/nginx/certs/${domain}-chained.pem
+    info "Created chained certificate for ${domain} at /etc/nginx/certs/${domain}-chained.pem"
 
     info "Signalling nginx to reload config"
     /configure-hosts.sh
