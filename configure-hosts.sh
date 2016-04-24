@@ -21,4 +21,3 @@ do
     echo "Skipping $domain for https due to missing cert and key"
   fi
 done
-ls -al /etc/nginx/conf.d
