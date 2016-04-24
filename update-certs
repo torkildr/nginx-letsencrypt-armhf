@@ -1,0 +1,46 @@
+#!/bin/sh
+
+info() {
+    echo "`date -Iseconds` INFO $1"
+}
+
+error() {
+    echo "`date -Iseconds` ERROR $1"
+}
+
+update_cert() {
+    domain=$1
+    dt=`date -I`
+
+    info "Checking expiry of ${domain} chained cert"
+    if openssl x509 -checkend 2419200 -noout -in /certs/${domain}-chained.pem; then
+        info "Chained cert for ${domain} is good for at least 28 days"
+        continue
+    fi
+
+    info "Chained cert for ${domain} is missing or expired or good for less than 28 days"
+
+    info "Generating new cert for ${domain}"
+    openssl req -new -sha256 -key /etc/secrets/${domain}.key -subj "/CN=${domain}" > /root/${domain}.csr;
+    if ! python /opt/acme-tiny/acme_tiny.py --account-key /etc/secrets/account.key --csr /root/${domain}.csr --acme-dir /acme-challenge/ > /tmp/${domain}-${dt}-signed.crt --ca ${CA}; then
+        error "Failed to get signed certificate for ${domain}"
+        continue
+    fi
+
+    if ! test -s /tmp/${domain}-${dt}-signed.crt; then
+        error "Failed to get signed certificate for ${domain} - certificate is zero length"
+        continue
+    fi
+
+    mv /tmp/${domain}-${dt}-signed.crt /certs/
+
+    info "Successfully got signed certificate for ${domain}"
+    wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > intermediate.pem
+    cat /certs/${domain}-${dt}-signed.crt intermediate.pem > /certs/${domain}-chained.pem
+    info "Created chained certificate for ${domain} at /certs/${domain}-chained.pem"
+}
+
+cd /root
+for domain in $DOMAINS; do
+    update_cert $domain
+done
