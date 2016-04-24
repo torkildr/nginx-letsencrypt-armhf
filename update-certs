@@ -2,10 +2,12 @@
 
 info() {
     echo "`date -Iseconds` INFO $1"
+    echo "`date -Iseconds` INFO $1" >> /var/log/update-certs.log
 }
 
 error() {
     echo "`date -Iseconds` ERROR $1"
+    echo "`date -Iseconds` ERROR $1" >> /var/log/update-certs.log
 }
 
 update_cert() {
