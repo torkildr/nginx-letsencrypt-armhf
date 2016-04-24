@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/update-certs
+/configure-hosts.sh
 
 echo "Starting nginx in the background..."
 nginx &
