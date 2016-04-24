@@ -23,10 +23,10 @@ openssl genrsa 4096 > secrets/www.example.com.key
 These will be used by the container to generate certificate signing requests.
 
 DO NOT COMMIT YOUR PRIVATE KEYS TO GIT (ETC)!  These are your credentials for
-generating certificates!  Make the keys available to the container by mounting
-the directory.  See below for an example when running Docker directly.  If
-using Kubernetes, you can place them in a secrets object, and mount them from
-there.
+generating certificates!  Also do not copy them to the image when building it.
+Make the keys available to the container by mounting the directory.  See below
+for an example when running Docker directly.  If using Kubernetes, you can
+  place them in a secrets object, and mount them from there.
 
 ### Your website configurations
 
