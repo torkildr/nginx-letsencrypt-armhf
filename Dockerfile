@@ -17,7 +17,7 @@ RUN rm /tmp/acme-tiny.zip
 # Install certificate updating script
 COPY update-certs /update-certs
 
-# Configure updating to run every 15 mins
+# Configure updating to run daily
 RUN ln -s /update-certs /etc/periodic/daily/update-certs
 
 # Configure nginx
