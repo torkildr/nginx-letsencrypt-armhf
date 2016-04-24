@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Starting crond in the background..."
+crond -b
+
 /configure-hosts.sh
 
 echo "Starting nginx in the background..."
