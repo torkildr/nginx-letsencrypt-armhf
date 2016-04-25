@@ -26,7 +26,13 @@ DO NOT COMMIT YOUR PRIVATE KEYS TO GIT (ETC)!  These are your credentials for
 generating certificates!  Also do not copy them to the image when building it.
 Make the keys available to the container by mounting the directory.  See below
 for an example when running Docker directly.  If using Kubernetes, you can
-  place them in a secrets object, and mount them from there.
+place them in a secrets object, and mount them from there.
+
+Create a [strong DH group](https://weakdh.org/sysadmin.html):
+
+```
+openssl dhparam -out secrets/dhparams.pem 2048
+```
 
 ### Your website configurations
 
@@ -82,6 +88,7 @@ server {
 
     ssl_certificate /etc/nginx/certs/www.example.com-chained.pem;
     ssl_certificate_key /etc/secrets/www.example.com.key;
+    ssl_dhparam /etc/secrets/dhparams.pem;
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_prefer_server_ciphers on;
