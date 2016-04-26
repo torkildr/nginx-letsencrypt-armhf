@@ -46,6 +46,13 @@ update_cert() {
     nginx -s reload
 }
 
+if [ ! -z "$NO_CERT_UPDATES" ]
+then
+    info "NO_CERT_UPDATES is set - skipping certificate update check"
+    exit
+fi
+
+
 cd /root
 for domain in $DOMAINS; do
     update_cert $domain

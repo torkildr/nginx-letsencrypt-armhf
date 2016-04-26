@@ -140,6 +140,10 @@ is mounted to /etc/nginx/certs.  Using this command, you can access the
 certificates from the host at $PWD/certs, as they are generated, in order to
 make backups, etc.
 
+If you wish to skip certificate checks (e.g. when running locally in a dev
+environment), then set the environment variable $NO_CERT_UPDATES to any
+non-empty value (e.g. with the -e option on 'docker run');
+
 ## Maintenance
 
 As per standard nginx Docker image, the nginx logs go to stdout (except briefly
