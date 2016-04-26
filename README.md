@@ -51,7 +51,7 @@ configuration files in the above-mentioned directories.
 Example Dockerfile for your image:
 
 ```
-FROM garymonson/lets-encrypt-nginx:latest
+FROM garymonson/lets-encrypt-nginx:2
 MAINTAINER gary.monson@gmail.com
 
 # Copy configs
