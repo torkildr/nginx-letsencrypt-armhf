@@ -1,14 +1,11 @@
-FROM nginx:alpine
+FROM nginx:1.9.14
 MAINTAINER gary.monson@gmail.com
 
-# Install prerequisites
-RUN apk update
-RUN apk add python
-RUN apk add openssl
-RUN apk add ca-certificates
+RUN apt-get update
+RUN apt-get install -y python openssl ca-certificates wget unzip cron
 
 # Install acme-tiny for let's-encrypt
-RUN mkdir /opt
+RUN mkdir -p /opt
 RUN wget -O /tmp/acme-tiny.zip https://github.com/diafygi/acme-tiny/archive/7a5a2558c8d6e5ab2a59b9fec9633d9e63127971.zip
 RUN unzip -d /opt /tmp/acme-tiny.zip
 RUN ln -s /opt/acme-tiny-7a5a2558c8d6e5ab2a59b9fec9633d9e63127971 /opt/acme-tiny
@@ -18,12 +15,11 @@ RUN rm /tmp/acme-tiny.zip
 COPY update-certs /update-certs
 
 # Configure updating to run daily
-RUN ln -s /update-certs /etc/periodic/daily/update-certs
+RUN ln -s /update-certs /etc/cron.daily/update-certs
 
 # Configure nginx
-RUN mkdir /etc/nginx/conf.d
+RUN mkdir -p /etc/nginx/conf.d
 RUN mkdir -p /usr/share/nginx/html
-RUN cp /etc/nginx/html/* /usr/share/nginx/html
 COPY etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 

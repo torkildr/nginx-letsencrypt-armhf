@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Starting crond in the background..."
-crond -b
+cron
 
 /configure-hosts.sh
 
