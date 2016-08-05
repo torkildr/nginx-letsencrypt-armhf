@@ -6,9 +6,9 @@ RUN apt-get install -y python openssl ca-certificates wget unzip cron
 
 # Install acme-tiny for let's-encrypt
 RUN mkdir -p /opt
-RUN wget -O /tmp/acme-tiny.zip https://github.com/diafygi/acme-tiny/archive/7a5a2558c8d6e5ab2a59b9fec9633d9e63127971.zip
+RUN wget -O /tmp/acme-tiny.zip https://github.com/diafygi/acme-tiny/archive/5a7b4e79bc9bd5b51739c0d8aaf644f62cc440e6.zip
 RUN unzip -d /opt /tmp/acme-tiny.zip
-RUN ln -s /opt/acme-tiny-7a5a2558c8d6e5ab2a59b9fec9633d9e63127971 /opt/acme-tiny
+RUN ln -s /opt/acme-tiny-5a7b4e79bc9bd5b51739c0d8aaf644f62cc440e6 /opt/acme-tiny
 RUN rm /tmp/acme-tiny.zip
 
 # Install certificate updating script
