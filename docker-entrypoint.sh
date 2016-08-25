@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Preventing cron PAM error..."
+touch /etc/default/locale
+
 echo "Preparing environment..."
 echo '#!/bin/sh' > /environment.sh
 echo "export CA=${CA}" >> /environment.sh
