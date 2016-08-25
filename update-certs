@@ -52,6 +52,7 @@ then
     exit
 fi
 
+. /environment.sh
 
 cd /root
 for domain in $DOMAINS; do

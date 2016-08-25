@@ -1,5 +1,11 @@
 #!/bin/sh
 
+echo "Preparing environment..."
+echo '#!/bin/sh' > /environment.sh
+echo "export CA=${CA}" >> /environment.sh
+echo "export DOMAINS='${DOMAINS}'" >> /environment.sh
+echo "export NO_CERT_UPDATES=${NO_CERT_UPDATES}" >> /environment.sh
+
 echo "Starting crond in the background..."
 cron
 
