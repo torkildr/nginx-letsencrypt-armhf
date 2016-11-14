@@ -1,4 +1,4 @@
-FROM nginx:1.9.14
+FROM nginx:1.10.2
 MAINTAINER gary.monson@gmail.com
 
 RUN apt-get update
