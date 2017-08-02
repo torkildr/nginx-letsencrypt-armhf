@@ -1,4 +1,7 @@
-# lets-encrypt-nginx
+# nginx-letsencrypt-armhf
+
+This project is *heavily* based on https://bitbucket.org/garymonson/lets-encrypt-nginx,
+but repurposed to work on armhf-devices, like raspberry pi.
 
 An nginx Docker image with lets-encrypt included.  Certificates are checked on
 container start, and on a daily schedule.  Certificates are generated using

@@ -1,8 +1,28 @@
-FROM nginx:1.10.2
-MAINTAINER gary.monson@gmail.com
+FROM lsiobase/alpine.armhf:3.6
+MAINTAINER torkild@retvedt.no
 
-RUN apt-get update
-RUN apt-get install -y python openssl ca-certificates wget unzip cron
+RUN ls
+
+# Packages
+RUN \
+  apk add --no-cache \
+	nginx \
+	nginx-mod-http-echo \
+	nginx-mod-http-fancyindex \
+	nginx-mod-http-geoip \
+	nginx-mod-http-headers-more \
+	nginx-mod-http-set-misc \
+	nginx-mod-rtmp \
+	nginx-mod-stream \
+	nginx-mod-stream-geoip \
+	openssl \
+	logrotate \
+	apache2-utils \
+	libressl2.5-libssl \
+	python \
+	ca-certificates \
+	wget \
+	unzip
 
 # Install acme-tiny for let's-encrypt
 RUN mkdir -p /opt
@@ -15,11 +35,15 @@ RUN rm /tmp/acme-tiny.zip
 COPY update-certs /update-certs
 
 # Configure updating to run daily
-RUN ln -s /update-certs /etc/cron.daily/update-certs
+RUN ln -s /update-certs /etc/periodic/daily/update-certs
 
 # Configure nginx
-RUN mkdir -p /etc/nginx/conf.d
-RUN mkdir -p /usr/share/nginx/html
+RUN \
+  rm -Rf /etc/services.d/nginx \
+  && mkdir -p /etc/nginx/conf.d \
+  && mkdir -p /usr/share/nginx/html \
+  && ln -sf /dev/stdout /var/log/nginx/access.log \
+  && ln -sf /dev/stderr /var/log/nginx/error.log
 COPY etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
@@ -32,4 +56,7 @@ VOLUME /acme-challenge
 COPY configure-hosts.sh /
 COPY docker-entrypoint.sh /
 
+EXPOSE 80 443
+
 CMD /docker-entrypoint.sh
+

@@ -56,5 +56,6 @@ fi
 
 cd /root
 for domain in $DOMAINS; do
+    info "Using CA: ${CA}"
     update_cert $domain
 done
