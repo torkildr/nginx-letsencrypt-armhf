@@ -131,7 +131,12 @@ Running the container:
 docker run -it --rm -v $PWD/certs:/etc/nginx/certs -v $PWD/secrets:/etc/secrets -p 80:80 -p 443:443 -e DOMAINS="www1.example.com www2.example.com" -e CA=https://acme-v01.api.letsencrypt.org garymonson/lets-encrypt-nginx
 ```
 
-Replace the DOMAINS value with a comma-separated list of your domains.
+Replace the DOMAINS value with a semicolon-separated list of your domains,
+alternate names separated by comma:
+
+```
+DOMAINS=example.com,sub1.example.com,sub2.example.com;othercert.example.com
+```
 
 If testing and you expect to be restarting a lot, replace the CA with
 https://acme-staging.api.letsencrypt.org if you don't want to be rate-limited
