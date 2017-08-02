@@ -1,8 +1,6 @@
 FROM lsiobase/alpine.armhf:3.6
 MAINTAINER torkild@retvedt.no
 
-RUN ls
-
 # Packages
 RUN \
   apk add --no-cache \
