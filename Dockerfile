@@ -1,26 +1,14 @@
-FROM lsiobase/alpine.armhf:3.6
+FROM wouterds/rpi-nginx:latest
 MAINTAINER torkild@retvedt.no
 
 # Packages
-RUN \
-  apk add --no-cache \
-	nginx \
-	nginx-mod-http-echo \
-	nginx-mod-http-fancyindex \
-	nginx-mod-http-geoip \
-	nginx-mod-http-headers-more \
-	nginx-mod-http-set-misc \
-	nginx-mod-rtmp \
-	nginx-mod-stream \
-	nginx-mod-stream-geoip \
-	openssl \
-	logrotate \
-	apache2-utils \
-	libressl2.5-libssl \
-	python \
-	ca-certificates \
-	wget \
-	unzip
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        python \
+        openssl \
+        ca-certificates \
+        wget \
+        unzip cron
 
 # Install acme-tiny for let's-encrypt
 RUN mkdir -p /opt
@@ -33,21 +21,18 @@ RUN rm /tmp/acme-tiny.zip
 COPY update-certs /update-certs
 
 # Configure updating to run daily
-RUN ln -s /update-certs /etc/periodic/daily/update-certs
+RUN ln -s /update-certs /etc/cron.daily/update-certs
 
 # Configure nginx
 RUN \
-  rm -Rf /etc/services.d/nginx \
-  && mkdir -p /etc/nginx/conf.d \
-  && mkdir -p /usr/share/nginx/html \
-  && ln -sf /dev/stdout /var/log/nginx/access.log \
-  && ln -sf /dev/stderr /var/log/nginx/error.log
+    mkdir -p /etc/nginx/conf.d \
+    && mkdir -p /configs/http \
+    && mkdir -p /configs/https \
+    && ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
 COPY etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
-
-# Make directories for nginx configs
-RUN mkdir -p /configs/http
-RUN mkdir -p /configs/https
 
 VOLUME /acme-challenge
 
