@@ -1,5 +1,5 @@
 FROM wouterds/rpi-nginx:latest
-MAINTAINER torkild@retvedt.no
+MAINTAINER torkildr
 
 RUN [ "cross-build-start" ]
 
