@@ -1,6 +1,8 @@
 FROM wouterds/rpi-nginx:latest
 MAINTAINER torkild@retvedt.no
 
+RUN [ "cross-build-start" ]
+
 # Packages
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -38,6 +40,8 @@ VOLUME /acme-challenge
 
 COPY configure-hosts.sh /
 COPY docker-entrypoint.sh /
+
+RUN [ "cross-build-end" ]
 
 EXPOSE 80 443
 
